@@ -5,9 +5,9 @@
     <color name="chat_company_reply_background_color">#F5F5F5</color>
     <color name="gray">@android:color/darker_gray</color>
     <color name="transparent">@android:color/transparent</color>
-    <color name="orange">@android:color/holo_blue_light</color>
     <color name="background_tab_pressed">#6633B5E5</color>
-    <color name="green">#6633f710</color>
+    <color name="green">#aaa4e98d</color>
+    <color name="orange">#ffdc8d</color>
     <color name="black_semi_transparent">#B2000000</color>
     <color name="common_h2">#727272</color>
     <color name="half_black">#808080</color>

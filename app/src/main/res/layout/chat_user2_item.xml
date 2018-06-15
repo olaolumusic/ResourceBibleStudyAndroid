@@ -10,8 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="8dp"
+        android:padding="@dimen/abc_text_size_caption_material"
         android:layout_alignParentRight="true"
-        android:background="@drawable/balloon_outgoing_normal">
+        android:background="@drawable/input">
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -104,7 +105,7 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
             if(editable.length()==0){
                 enterChatView1.setImageResource(R.drawable.input_send);
             }else{
-                enterChatView1.setImageResource(R.drawable.input_send);
+                enterChatView1.setImageResource(R.drawable.ic_chat_send_active);
             }
         }
     };
@@ -118,6 +119,10 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
         AndroidUtilities.statusBarHeight = getStatusBarHeight();
 
         getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.background));
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         chatMessages = new ArrayList<>();
 
@@ -261,7 +266,10 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
         }
 
     }
-
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
     /**
      * Show or hide the emoji popup
      *
@@ -271,6 +279,7 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
         showingEmoji = show;
 
         if (show) {
+
             if (emojiView == null) {
                 if (getActivity() == null) {
                     return;

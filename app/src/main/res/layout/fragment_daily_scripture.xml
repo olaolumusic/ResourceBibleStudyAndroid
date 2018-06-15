@@ -92,12 +92,12 @@
             android:layout_marginEnd="16dp">
 
             <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/action_a"
+                android:id="@+id/discussion_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/orange"
-                fab:fab_icon="@drawable/ic_read"
-                fab:fab_title="Space SPEC"
+                fab:fab_colorNormal="@color/background_tab_pressed"
+                fab:fab_icon="@drawable/whatsapp_contact"
+                fab:fab_title="Forum Discussion"
                 fab:fab_colorPressed="@color/white_pressed"/>
 
             <com.getbase.floatingactionbutton.FloatingActionButton

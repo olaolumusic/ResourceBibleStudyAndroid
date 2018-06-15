@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">ResourceStudy</string>
+    <string name="discussion_forum">Discussion Forum</string>
     <string name="type_your_message">Type a message</string>
     <string name="NoRecent">No recent</string>
     <string name="title_activity_bible">Bible Study</string>

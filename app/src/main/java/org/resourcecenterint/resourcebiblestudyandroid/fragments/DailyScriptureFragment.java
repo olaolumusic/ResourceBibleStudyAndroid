@@ -3,6 +3,7 @@ package org.resourcecenterint.resourcebiblestudyandroid.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import org.resourcecenterint.resourcebiblestudyandroid.MainActivity;
 import org.resourcecenterint.resourcebiblestudyandroid.R;
 import org.resourcecenterint.resourcebiblestudyandroid.model.Bible;
 import org.resourcecenterint.resourcebiblestudyandroid.model.Book;
@@ -59,6 +61,7 @@ public class DailyScriptureFragment extends Fragment
     private Button mPreviousButton;
     private Button mNextButton;
     private FloatingActionButton mDailyScripturesFloatingActionButton;
+    private FloatingActionButton mDiscussionFloatingActionButton;
 
     static ArrayList<DailyScriptures> mDailyScriptures;
     DailyScriptures todaysReading;
@@ -68,15 +71,6 @@ public class DailyScriptureFragment extends Fragment
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DailyScriptureFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static DailyScriptureFragment newInstance(String param1, String param2) {
         DailyScriptureFragment fragment = new DailyScriptureFragment();
 
@@ -106,6 +100,15 @@ public class DailyScriptureFragment extends Fragment
         mDailyReadingContent = (TextView)dailyFragmentView.findViewById(R.id.daily_reading_bible_content);
         mPreviousButton = (Button) dailyFragmentView.findViewById(R.id.btnPrevious);
         mNextButton = (Button) dailyFragmentView.findViewById(R.id.btnNext);
+
+        mDiscussionFloatingActionButton = (FloatingActionButton)dailyFragmentView.findViewById(R.id.discussion_fab);
+        mDiscussionFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MainActivity.class));
+            }
+        });
+
         mDailyScripturesFloatingActionButton = (FloatingActionButton)dailyFragmentView.findViewById(R.id.daily_fab);
         mDailyScripturesFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +116,7 @@ public class DailyScriptureFragment extends Fragment
                 showCalender();
             }
         });
+
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

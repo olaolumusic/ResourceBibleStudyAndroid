@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="60dp"
+        android:padding="@dimen/abc_text_size_caption_material"
         android:layout_alignParentLeft="true"
         android:background="@drawable/balloon_incoming_normal">
 
