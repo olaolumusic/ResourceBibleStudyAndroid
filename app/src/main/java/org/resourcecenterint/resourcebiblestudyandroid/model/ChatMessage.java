@@ -1,8 +1,14 @@
 package org.resourcecenterint.resourcebiblestudyandroid.model;
 
+/**
+ * Created by madhur on 17/01/15.
+ */
 public class ChatMessage {
 
-    private String messageText;
+    private String userName;
+    private String userImageUrl;
+    private String messageDateTime;
+    private String message;
     private UserType userType;
     private Status messageStatus;
 
@@ -17,7 +23,7 @@ public class ChatMessage {
     private long messageTime;
 
     public void setMessageText(String messageText) {
-        this.messageText = messageText;
+        this.message = messageText;
     }
 
     public void setUserType(UserType userType) {
@@ -30,7 +36,7 @@ public class ChatMessage {
 
     public String getMessageText() {
 
-        return messageText;
+        return message;
     }
 
     public UserType getUserType() {
@@ -39,5 +45,29 @@ public class ChatMessage {
 
     public Status getMessageStatus() {
         return messageStatus;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserImageUrl() {
+        return userImageUrl;
+    }
+
+    public void setUserImageUrl(String userImageUrl) {
+        this.userImageUrl = userImageUrl;
+    }
+
+    public String getMessageDateTime() {
+        return messageDateTime;
+    }
+
+    public void setMessageDateTime(String messageDateTime) {
+        this.messageDateTime = messageDateTime;
     }
 }

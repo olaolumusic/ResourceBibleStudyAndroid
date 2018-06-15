@@ -332,7 +332,7 @@ public class DailyScriptureFragment extends Fragment
     private void showCalender()
     {// Created a new Dialog
 
-        String title = "Select date";
+        String title = "Select A Date";
         String cancel = "Cancel";
         String ok = "Ok";
 

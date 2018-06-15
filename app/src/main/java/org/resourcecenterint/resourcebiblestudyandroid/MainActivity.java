@@ -106,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
             if(editable.length()==0){
                 enterChatView1.setImageResource(R.drawable.input_send);
             }else{
-                enterChatView1.setImageResource(R.drawable.ic_chat_send_active);
+                enterChatView1.setImageResource(R.drawable.input_send);
             }
         }
     };
