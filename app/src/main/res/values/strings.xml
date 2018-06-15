@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ResourceStudy</string>
+    <string name="type_your_message">Type a message</string>
+    <string name="NoRecent">No recent</string>
+    <string name="title_activity_bible">Bible Study</string>
+
+    <!--Overlay for bible menu-->
+    <string name="action_settings">Settings</string>
+    <string name="book_read_mode_day">Day mode</string>
+    <string name="book_read_download">Download</string>
+    <string name="book_read_mark">Mark</string>
+    <string name="book_read_toc">TOC</string>
+    <string name="add_bookmark">Add Bookmark</string>
+</resources>
