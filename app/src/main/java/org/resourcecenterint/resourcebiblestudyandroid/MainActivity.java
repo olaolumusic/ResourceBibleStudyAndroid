@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -256,7 +257,6 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
             }
         }
 
-
         boolean oldValue = keyboardVisible;
         keyboardVisible = height > 0;
         if (keyboardVisible && sizeNotifierRelativeLayout.getPaddingBottom() > 0) {
@@ -267,8 +267,20 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
 
     }
     @Override
-    public void onBackPressed() {
-        finish();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
     /**
      * Show or hide the emoji popup
@@ -396,6 +408,11 @@ public class MainActivity extends ActionBarActivity implements NotificationCente
         super.onPause();
 
         hideEmojiPopup();
+    }
+    @Override
+    public void onBackPressed() {
+       hideEmojiPopup();
+       super.onBackPressed();
     }
 
     /**
