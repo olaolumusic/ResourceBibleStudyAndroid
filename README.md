@@ -15,7 +15,7 @@ Open Source Multi Version - Bible Study
 ![Discussion Forum](Resource%20Study%20Chat%20Forum.PNG)
 
 ![Normal Reading](Resource%20Study%20Select%20A%20Date.PNG)
-
+![Normal Reading](35539955-8e1c1d62-054b-11e8-94a4-b24087fbd740.png)
 
 	
 	
