@@ -8,8 +8,17 @@ Open Source Multi Version - Bible Study
 * Bible View.
 
 ### Screenshots
+![alt text](Resource%20Study%20Android.PNG "Home Page")
+
+![Reading Plan](Resource%20Study%20Bible.PNG)
+
+![Discussion Forum](Resource%20Study%20Chat%20Forum.PNG)
+
+![Normal Reading](Resource%20Study%20Select%20A%20Date.PNG)
 
 
+	
+	
 
 
 # Contributes
