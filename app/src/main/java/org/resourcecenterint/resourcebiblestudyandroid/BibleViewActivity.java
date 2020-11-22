@@ -1,7 +1,6 @@
 package org.resourcecenterint.resourcebiblestudyandroid;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.graphics.Typeface;
@@ -11,6 +10,7 @@ import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
@@ -29,8 +29,7 @@ import org.resourcecenterint.resourcebiblestudyandroid.widgets.SettingManager;
 import org.resourcecenterint.resourcebiblestudyandroid.widgets.SharedPreferencesUtil;
 
 
-public class BibleViewActivity extends AppCompatActivity
-{
+public class BibleViewActivity extends AppCompatActivity {
     static Book mBook;
     private static Chapters mSelectedChapter;
     /**
@@ -42,7 +41,6 @@ public class BibleViewActivity extends AppCompatActivity
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
-     *
      */
     LinearLayout rlReadAaSet;
 
@@ -79,7 +77,7 @@ public class BibleViewActivity extends AppCompatActivity
     private final Handler mHideHandler = new Handler();
     public TextView mContentView;
     private TextView mBookTitleView;
-    Activity mActivity;
+    GestureDetector mDetector;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -138,21 +136,20 @@ public class BibleViewActivity extends AppCompatActivity
         setContentView(R.layout.activity_bible_view);
         mTypeface = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
         AppUtils.init(this);
-        mActivity = this;
 
 
-        seekbarFontSize =  (SeekBar) findViewById(R.id.seekbarFontSize);
-        seekbarLightness =  (SeekBar) findViewById(R.id.seekbarLightness);
-        ivBrightnessMinus =  (ImageView) findViewById(R.id.ivBrightnessMinus);
-        ivBrightnessPlus =  (ImageView) findViewById(R.id.ivBrightnessPlus);
-        tvFontsizeMinus =  (TextView)findViewById(R.id.tvFontsizeMinus);
-        tvFontsizePlus =  (TextView) findViewById(R.id.tvFontsizePlus);
-        tvBookReadMode =  (TextView) findViewById(R.id.tvBookReadMode);
-        cbVolume =  (CheckBox) findViewById(R.id.cbVolume);
-        cbAutoBrightness =  (CheckBox) findViewById(R.id.cbAutoBrightness);
-        rlReadAaSet =  (LinearLayout) findViewById(R.id.rlReadAaSet);
+        seekbarFontSize = (SeekBar) findViewById(R.id.seekbarFontSize);
+        seekbarLightness = (SeekBar) findViewById(R.id.seekbarLightness);
+        ivBrightnessMinus = (ImageView) findViewById(R.id.ivBrightnessMinus);
+        ivBrightnessPlus = (ImageView) findViewById(R.id.ivBrightnessPlus);
+        tvFontsizeMinus = (TextView) findViewById(R.id.tvFontsizeMinus);
+        tvFontsizePlus = (TextView) findViewById(R.id.tvFontsizePlus);
+        tvBookReadMode = (TextView) findViewById(R.id.tvBookReadMode);
+        cbVolume = (CheckBox) findViewById(R.id.cbVolume);
+        cbAutoBrightness = (CheckBox) findViewById(R.id.cbAutoBrightness);
+        rlReadAaSet = (LinearLayout) findViewById(R.id.rlReadAaSet);
 
-        rlBookReadRoot =    findViewById(R.id.rlBookReadRoot);
+        rlBookReadRoot = findViewById(R.id.rlBookReadRoot);
 
         initPrefs();
         initAASet();
@@ -160,11 +157,11 @@ public class BibleViewActivity extends AppCompatActivity
 
         mVisible = true;
         mControlsView = findViewById(R.id.llBookReadBottom);
-        mContentView = (TextView)findViewById(R.id.bible_content);
-        mBookTitleView = (TextView)findViewById(R.id.book_title);
+        mContentView = (TextView) findViewById(R.id.bible_content);
+        mBookTitleView = (TextView) findViewById(R.id.book_title);
 
 
-        String bookTitle = String.format("<strong>The Book of %s </strong>",mBook.getBookName());
+        String bookTitle = String.format("<strong>The Book of %s </strong>", mBook.getBookName());
         mBookTitleView.setTypeface(mTypeface);
         mBookTitleView.setText(Html.fromHtml(bookTitle));
 
@@ -188,17 +185,33 @@ public class BibleViewActivity extends AppCompatActivity
             }
         });
 
-        String bibleText= "";
+        String bibleText = "";
         //So lets load only the selected chapter
         bibleText += String.format("<p><strong>Chapter. %s </strong></p>", mSelectedChapter.getChapterId());
-        for (Verse verse: mSelectedChapter.getChapterVerses()){
-            bibleText += String.format("%s. %s <br/>", verse.getId(),verse.getVerseText());
+        for (Verse verse : mSelectedChapter.getChapterVerses()) {
+            bibleText += String.format("%s. %s <br/>", verse.getId(), verse.getVerseText());
         }
 
         mContentView.setTypeface(mTypeface);
-        mContentView.setText( Html.fromHtml(bibleText));
+        mContentView.setText(Html.fromHtml(bibleText));
 
-        mContentView.setOnTouchListener(new CustomScaleGestures(this));
+        // get the gesture detector
+        mDetector = new GestureDetector(new CustomScaleGestures(this));
+        View.OnTouchListener touchListener = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // pass the events to the gesture detector
+                // a return value of true means the detector is handling it
+                // a return value of false means the detector didn't
+                // recognize the event
+                return mDetector.onTouchEvent(event);
+
+            }
+        };
+
+        mContentView.setOnTouchListener(touchListener);
+
+
         // Set up the user interaction to manually show or hide the system UI.
       /*  mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,7 +226,7 @@ public class BibleViewActivity extends AppCompatActivity
         findViewById(R.id.tvBookReadSettings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(rlReadAaSet.getVisibility()==View.VISIBLE)
+                if (rlReadAaSet.getVisibility() == View.VISIBLE)
                     rlReadAaSet.setVisibility(View.GONE);
                 else
                     rlReadAaSet.setVisibility(View.VISIBLE);
@@ -221,21 +234,23 @@ public class BibleViewActivity extends AppCompatActivity
         });
 
     }
-    public void  setReadMode() {
-        if (!isNightMode){
+
+    public void setReadMode() {
+        if (!isNightMode) {
             rlBookReadRoot.setBackgroundResource(R.drawable.theme_night_bg);
-            mContentView.setTextColor(mActivity.getResources().getColor(R.color.white));
-            mBookTitleView.setTextColor(mActivity.getResources().getColor(R.color.white));
-            isNightMode= true;
-        }else {
+            mContentView.setTextColor(getResources().getColor(R.color.white));
+            mBookTitleView.setTextColor(getResources().getColor(R.color.white));
+            isNightMode = true;
+        } else {
             rlBookReadRoot.setBackgroundResource(R.drawable.theme_leather_bg);
-            mContentView.setTextColor(mActivity.getResources().getColor(R.color.primary_dark_material_dark));
-            mBookTitleView.setTextColor(mActivity.getResources().getColor(R.color.primary_dark_material_dark));
+            mContentView.setTextColor(getResources().getColor(R.color.primary_dark_material_dark));
+            mBookTitleView.setTextColor(getResources().getColor(R.color.primary_dark_material_dark));
             isNightMode = false;
         }
 
 
     }
+
     public void fontsizeMinus() {
         calcFontSize(seekbarFontSize.getProgress() - 1);
     }
@@ -243,18 +258,21 @@ public class BibleViewActivity extends AppCompatActivity
     public void fontsizePlus() {
         calcFontSize(seekbarFontSize.getProgress() + 1);
     }
+
     protected void initPrefs() {
         SharedPreferencesUtil.init(this, getPackageName() + "_preference", Context.MODE_MULTI_PROCESS);
     }
+
     private ContentObserver Brightness = new ContentObserver(new Handler()) {
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            if (!ScreenUtils.isAutoBrightness(mActivity)) {
+            if (!ScreenUtils.isAutoBrightness(getApplication())) {
                 seekbarLightness.setProgress(ScreenUtils.getScreenBrightness());
             }
         }
     };
+
     private void initAASet() {
         seekbarFontSize.setMax(10);
         int fontSizePx = SettingManager.getInstance().getReadFontSize();
@@ -339,20 +357,20 @@ public class BibleViewActivity extends AppCompatActivity
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    public static void setBook(Book book,  Chapters chapter) {
+    public static void setBook(Book book, Chapters chapter) {
         mBook = book;
         mSelectedChapter = chapter;
     }
 
     private void startAutoLightness() {
         SettingManager.getInstance().saveAutoBrightness(true);
-        ScreenUtils.startAutoBrightness(mActivity);
+        ScreenUtils.startAutoBrightness(this);
         seekbarLightness.setEnabled(false);
     }
 
     private void stopAutoLightness() {
         SettingManager.getInstance().saveAutoBrightness(false);
-        ScreenUtils.stopAutoBrightness(mActivity);
+        ScreenUtils.stopAutoBrightness(this);
         seekbarLightness.setProgress((int) (ScreenUtils.getScreenBrightnessInt255() / 255.0F * 100));
         seekbarLightness.setEnabled(true);
     }
@@ -364,6 +382,7 @@ public class BibleViewActivity extends AppCompatActivity
             mContentView.setTextSize(ScreenUtils.dpToPxInt(8 + 1.7f * progress));
         }
     }
+
     private class SeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
 
         @Override
@@ -372,7 +391,7 @@ public class BibleViewActivity extends AppCompatActivity
                 calcFontSize(progress);
             } else if (seekBar.getId() == seekbarLightness.getId() && fromUser
                     && !SettingManager.getInstance().isAutoBrightness()) {
-                ScreenUtils.saveScreenBrightnessInt100(progress, mActivity);
+                ScreenUtils.saveScreenBrightnessInt100(progress, getApplicationContext());
                 //SettingManager.getInstance().saveReadBrightness(progress);
             }
         }
@@ -387,6 +406,7 @@ public class BibleViewActivity extends AppCompatActivity
 
         }
     }
+
     private class ChechBoxChangeListener implements CompoundButton.OnCheckedChangeListener {
 
         @Override

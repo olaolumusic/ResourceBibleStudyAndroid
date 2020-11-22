@@ -23,57 +23,53 @@ import java.util.ArrayList;
 public class BibleHelper {
     static Bible mBible;
     static ArrayList<DailyScriptures> mDailyScriptures;
-    static Activity mActivity;
 
-    public static Bible GetBible(Activity activity){
-        mActivity = activity;
-        if (mBible != null && mBible.getBooks().size() > 0 )return mBible;
+    public static Bible GetBible(Activity activity) {
+        if (mBible != null && mBible.getBooks().size() > 0) return mBible;
 
-        InputStream isReader = mActivity.getResources().openRawResource(R.raw.msg);
+        InputStream isReader = activity.getResources().openRawResource(R.raw.msg);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(isReader));
         return mBible = BibleExtractor(reader);
 
     }
-     public static ArrayList<DailyScriptures> GetDailyScriptures(Activity activity){
-         mActivity = activity;
-         if (mDailyScriptures != null && mDailyScriptures.size() > 0 )return mDailyScriptures;
 
-         InputStream isReader = mActivity.getResources().openRawResource(R.raw.dailyscriptures);
+    public static ArrayList<DailyScriptures> GetDailyScriptures(Activity activity) {
+        if (mDailyScriptures != null && mDailyScriptures.size() > 0) return mDailyScriptures;
 
-         BufferedReader reader = new BufferedReader(new InputStreamReader(isReader));
-         return mDailyScriptures = DailyScriptureExtractor(reader);
+        InputStream isReader = activity.getResources().openRawResource(R.raw.dailyscriptures);
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(isReader));
+        return mDailyScriptures = DailyScriptureExtractor(reader);
     }
-    public static Bible BibleExtractor(BufferedReader bibleJson){
+
+    public static Bible BibleExtractor(BufferedReader bibleJson) {
         Gson gson = new Gson();
         Bible bible = new Bible();
-        try{
+        try {
             bible = gson.fromJson(bibleJson, Bible.class);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
 
-            return  bible;
+            return bible;
         }
 
         return bible;
     }
 
-    public static ArrayList<DailyScriptures> DailyScriptureExtractor(BufferedReader bibleJson){
+    public static ArrayList<DailyScriptures> DailyScriptureExtractor(BufferedReader bibleJson) {
         Gson gson = new Gson();
         ArrayList<DailyScriptures> dailyScriptureList = new ArrayList<>();
-        try{
+        try {
             JsonArray jsonArray = new JsonParser().parse(bibleJson).getAsJsonArray();
 
-            for (JsonElement dictionaryItem: jsonArray) {
+            for (JsonElement dictionaryItem : jsonArray) {
                 DailyScriptures dailyScripture = gson.fromJson(dictionaryItem, DailyScriptures.class);
                 dailyScriptureList.add(dailyScripture);
-            }}
-        catch (Exception ex)
-        {
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
-            return  dailyScriptureList;
+            return dailyScriptureList;
         }
 
         return dailyScriptureList;

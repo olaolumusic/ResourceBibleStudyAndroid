@@ -11,31 +11,24 @@ import android.widget.Toast;
  * Created by Ajose Olaolu on 31/10/2017.
  */
 
-public class CustomScaleGestures implements View.OnTouchListener,
-        GestureDetector.OnGestureListener,GestureDetector.OnDoubleTapListener,
-        ScaleGestureDetector.OnScaleGestureListener {
+public class CustomScaleGestures implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener, ScaleGestureDetector.OnScaleGestureListener, View.OnClickListener {
     private View view;
     private ScaleGestureDetector gestureScale;
     private float scaleFactor = 1;
     boolean inScale;
     Activity mActivity;
-    public CustomScaleGestures(Activity activity){
+
+    public CustomScaleGestures(Activity activity) {
         gestureScale = new ScaleGestureDetector(activity, this);
         mActivity = activity;
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent event) {
-        this.view = view;
-        gestureScale.onTouchEvent(event);
-        return true;
-    }
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
         scaleFactor *= detector.getScaleFactor();
         scaleFactor = (scaleFactor < 1 ? 1 : scaleFactor); // prevent our view from becoming too small //
-        scaleFactor = ((float)((int)(scaleFactor * 100))) / 100; // Change precision to help with jitter when user just rests their fingers //
+        scaleFactor = ((float) ((int) (scaleFactor * 100))) / 100; // Change precision to help with jitter when user just rests their fingers //
         view.setScaleX(scaleFactor);
         view.setScaleY(scaleFactor);
         return true;
@@ -49,7 +42,9 @@ public class CustomScaleGestures implements View.OnTouchListener,
 
 
     @Override
-    public void onScaleEnd(ScaleGestureDetector detector) { inScale = false; }
+    public void onScaleEnd(ScaleGestureDetector detector) {
+        inScale = false;
+    }
 
     @Override
     public boolean onDown(MotionEvent motionEvent) {
@@ -126,5 +121,10 @@ public class CustomScaleGestures implements View.OnTouchListener,
 
         Toast.makeText(mActivity, "onDoubleTapEvent", Toast.LENGTH_SHORT).show();
         return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }

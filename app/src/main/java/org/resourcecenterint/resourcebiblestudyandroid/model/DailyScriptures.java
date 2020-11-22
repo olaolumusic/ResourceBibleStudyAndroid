@@ -2,41 +2,60 @@ package org.resourcecenterint.resourcebiblestudyandroid.model;
 
 /**
  * Created by Ajose Olaolu on 20/10/2017.
- */public class DailyScriptures
-{
+ */
+public class DailyScriptures {
     private int Id;
-
-    public int getId() { return this.Id; }
-
-    public void setId(int Id) { this.Id = Id; }
-
     private String FirstReading;
-
-    public String getFirstReading() { return this.FirstReading; }
-
-    public void setFirstReading(String FirstReading) { this.FirstReading = FirstReading; }
-
+    private String BookVersion;
+    private int DayOfTheYear;
+    private String ThirdReading;
     private String SecondReading;
 
-    public String getSecondReading() { return this.SecondReading; }
+    public int getId() {
+        return this.Id;
+    }
 
-    public void setSecondReading(String SecondReading) { this.SecondReading = SecondReading; }
+    public void setId(int Id) {
+        this.Id = Id;
+    }
 
-    private String ThirdReading;
+    public String getFirstReading() {
+        return this.FirstReading;
+    }
 
-    public String getThirdReading() { return this.ThirdReading; }
+    public void setFirstReading(String FirstReading) {
+        this.FirstReading = FirstReading;
+    }
 
-    public void setThirdReading(String ThirdReading) { this.ThirdReading = ThirdReading; }
+    public String getSecondReading() {
+        return this.SecondReading;
+    }
 
-    private String BookVersion;
+    public void setSecondReading(String SecondReading) {
+        this.SecondReading = SecondReading;
+    }
 
-    public String getBookVersion() { return this.BookVersion; }
+    public String getThirdReading() {
+        return this.ThirdReading;
+    }
 
-    public void setBookVersion(String BookVersion) { this.BookVersion = BookVersion; }
+    public void setThirdReading(String ThirdReading) {
+        this.ThirdReading = ThirdReading;
+    }
 
-    private int DayOfTheYear;
+    public String getBookVersion() {
+        return this.BookVersion;
+    }
 
-    public int getDayOfTheYear() { return this.DayOfTheYear; }
+    public void setBookVersion(String BookVersion) {
+        this.BookVersion = BookVersion;
+    }
 
-    public void setDayOfTheYear(int DayOfTheYear) { this.DayOfTheYear = DayOfTheYear; }
+    public int getDayOfTheYear() {
+        return this.DayOfTheYear;
+    }
+
+    public void setDayOfTheYear(int DayOfTheYear) {
+        this.DayOfTheYear = DayOfTheYear;
+    }
 }

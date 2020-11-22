@@ -10,7 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -50,7 +52,6 @@ public class DailyScriptureFragment extends Fragment
     private static final String TAB_POSITION = "tab_position";
 
 
-    static Context mContext;
     String TAG =  DailyScriptureFragment.class.getName();
     private TextView mDailyReadingTitle;
     private Book mDailyReadingBook;
@@ -218,7 +219,6 @@ public class DailyScriptureFragment extends Fragment
                 }
             }
 
-            mDailyReadingContent.setOnTouchListener(new CustomScaleGestures(getActivity()));
             mDailyReadingContent.setText(Html.fromHtml(bibleText));
         }
         else if(timeOfDay<17){
@@ -271,7 +271,21 @@ public class DailyScriptureFragment extends Fragment
                     }
                 }
                 mDailyReadingContent.setText(Html.fromHtml(bibleText));
-                mDailyReadingContent.setOnTouchListener(new CustomScaleGestures(mActivity));
+                // get the gesture detector
+                final GestureDetector mDetector = new GestureDetector(new CustomScaleGestures(getActivity()));
+
+                View.OnTouchListener touchListener = new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // pass the events to the gesture detector
+                        // a return value of true means the detector is handling it
+                        // a return value of false means the detector didn't
+                        // recognize the event
+                        return mDetector.onTouchEvent(event);
+
+                    }
+                };
+                mDailyReadingContent.setOnTouchListener(touchListener);
             }
         }
         else{

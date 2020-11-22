@@ -204,14 +204,14 @@ public class ScreenUtils {
     /**
      * 判断是否开启了自动亮度调节
      *
-     * @param activity
+     * @param context
      * @return
      */
-    public static boolean isAutoBrightness(Activity activity) {
+    public static boolean isAutoBrightness(Context context) {
         boolean isAutoAdjustBright = false;
         try {
             isAutoAdjustBright = Settings.System.getInt(
-                    activity.getContentResolver(),
+                    context.getContentResolver(),
                     Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
         } catch (Settings.SettingNotFoundException e) {
             e.printStackTrace();
