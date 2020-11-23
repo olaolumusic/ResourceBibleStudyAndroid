@@ -21,12 +21,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.resourcecenterint.resourcebiblestudyandroid.model.Book;
+import org.resourcecenterint.resourcebiblestudyandroid.model.BookDirection;
 import org.resourcecenterint.resourcebiblestudyandroid.model.Chapters;
 import org.resourcecenterint.resourcebiblestudyandroid.model.Verse;
+import org.resourcecenterint.resourcebiblestudyandroid.widgets.BibleHelper;
 import org.resourcecenterint.resourcebiblestudyandroid.widgets.CustomScaleGestures;
 import org.resourcecenterint.resourcebiblestudyandroid.widgets.ScreenUtils;
 import org.resourcecenterint.resourcebiblestudyandroid.widgets.SettingManager;
 import org.resourcecenterint.resourcebiblestudyandroid.widgets.SharedPreferencesUtil;
+
+import java.util.List;
 
 
 public class BibleViewActivity extends AppCompatActivity {
@@ -161,9 +165,8 @@ public class BibleViewActivity extends AppCompatActivity {
         mBookTitleView = (TextView) findViewById(R.id.book_title);
 
 
-        String bookTitle = String.format("<strong>The Book of %s </strong>", mBook.getBookName());
         mBookTitleView.setTypeface(mTypeface);
-        mBookTitleView.setText(Html.fromHtml(bookTitle));
+        mContentView.setTypeface(mTypeface);
 
 
         tvBookReadMode.setOnClickListener(new View.OnClickListener() {
@@ -185,15 +188,7 @@ public class BibleViewActivity extends AppCompatActivity {
             }
         });
 
-        String bibleText = "";
-        //So lets load only the selected chapter
-        bibleText += String.format("<p><strong>Chapter. %s </strong></p>", mSelectedChapter.getChapterId());
-        for (Verse verse : mSelectedChapter.getChapterVerses()) {
-            bibleText += String.format("%s. %s <br/>", verse.getId(), verse.getVerseText());
-        }
-
-        mContentView.setTypeface(mTypeface);
-        mContentView.setText(Html.fromHtml(bibleText));
+        showBibleText();
 
         // get the gesture detector
         mDetector = new GestureDetector(new CustomScaleGestures(this));
@@ -235,6 +230,23 @@ public class BibleViewActivity extends AppCompatActivity {
 
     }
 
+    private void showBibleText() {
+        String bookTitle = String.format("<strong>The Book of %s </strong>", mBook.getBookName());
+        mBookTitleView.setText(Html.fromHtml(bookTitle));
+
+        StringBuilder bibleText = new StringBuilder();
+        //So lets load only the selected chapter
+        bibleText.append(String.format("<p><strong>Chapter. %s </strong></p>", mSelectedChapter.getChapterId()));
+
+        List<Verse> chapterVerses = mSelectedChapter.getChapterVerses();
+        for (int i = 0, chapterVersesSize = chapterVerses.size(); i < chapterVersesSize; i++) {
+            Verse verse = chapterVerses.get(i);
+            bibleText.append(String.format("%s. %s <br/>", verse.getId(), verse.getVerseText()));
+        }
+
+        mContentView.setText(Html.fromHtml(bibleText.toString()));
+    }
+
     public void setReadMode() {
         if (!isNightMode) {
             rlBookReadRoot.setBackgroundResource(R.drawable.theme_night_bg);
@@ -248,7 +260,30 @@ public class BibleViewActivity extends AppCompatActivity {
             isNightMode = false;
         }
 
+    }
 
+    public void nextPrevious(BookDirection direction) {
+        switch (direction) {
+
+            case NEXT:
+                int nextChapter = mSelectedChapter.getChapterId() + 1;
+                for (Chapters chap : mBook.getBookChapter()) {
+                    if (chap.getChapterId() == nextChapter) {
+                        mSelectedChapter = chap;
+                    }
+                }
+
+                break;
+            case PREVIOUS:
+                int prevChapter = mSelectedChapter.getChapterId() - 1;
+                for (Chapters chap : mBook.getBookChapter()) {
+                    if (chap.getChapterId() == prevChapter) {
+                        mSelectedChapter = chap;
+                    }
+                }
+                break;
+        }
+        showBibleText();
     }
 
     public void fontsizeMinus() {
@@ -313,7 +348,7 @@ public class BibleViewActivity extends AppCompatActivity {
         delayedHide(100);
     }
 
-    private void toggle() {
+    public void toggle() {
         if (mVisible) {
             hide();
         } else {

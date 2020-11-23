@@ -46,7 +46,7 @@ import java.util.Random;
 
 public class BibleFragment extends Fragment {
     RecyclerView recyclerView;
-    static  int GRID_ROWS =0;
+    static int GRID_ROWS = 0;
     private DraggableGridView draggableGridView;
     Activity mActivity;
     static Typeface mTypeface;
@@ -77,8 +77,8 @@ public class BibleFragment extends Fragment {
         if (getArguments() != null) {
         }
 
-        mActivity= getActivity();
-        mBible =  BibleHelper.GetBible(mActivity);
+        mActivity = getActivity();
+        mBible = BibleHelper.GetBible(mActivity);
     }
 
     @Override
@@ -95,13 +95,13 @@ public class BibleFragment extends Fragment {
         mTypeface = Typeface.createFromAsset(mActivity.getAssets(), "OpenSans-Light.ttf");
 
         // Inflate the layout for this fragment
-        View bibleView =  inflater.inflate(R.layout.fragment_bible, container, false);
+        View bibleView = inflater.inflate(R.layout.fragment_bible, container, false);
 
-        recyclerView = (RecyclerView)bibleView.findViewById(R.id.bible_recyclerview);
+        recyclerView = (RecyclerView) bibleView.findViewById(R.id.bible_recyclerview);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
 
-        draggableGridView = ((DraggableGridView)bibleView.findViewById(R.id.bibleDraggableView));
+        draggableGridView = ((DraggableGridView) bibleView.findViewById(R.id.bibleDraggableView));
 
         mBibleFloatingActionButton = (FloatingActionButton) bibleView.findViewById(R.id.bible_fab);
         Configuration config = getResources().getConfiguration();
@@ -114,13 +114,13 @@ public class BibleFragment extends Fragment {
         setUpDraggableViewForBible();
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity, GRID_ROWS));
         hideProgressDialog();
-        return  bibleView;
+        return bibleView;
     }
-    private void setUpDraggableViewForBible()
-    {
+
+    private void setUpDraggableViewForBible() {
 
         draggableGridView.removeAllViews();
-        for (Book book : mBible.getBooks() ){
+        for (Book book : mBible.getBooks()) {
 
             ImageView view = new ImageView(mActivity);
 
@@ -138,15 +138,15 @@ public class BibleFragment extends Fragment {
         });
         setUpFloatingBarAction(0);
     }
-    private void setUpDraggableViewForChapters()
-    {
+
+    private void setUpDraggableViewForChapters() {
         draggableGridView.removeAllViews();
 
-        for (Chapters chapters :  mSelectedBook.getBookChapter() ){
+        for (Chapters chapters : mSelectedBook.getBookChapter()) {
 
             ImageView view = new ImageView(mActivity);
 
-            String chapterName =  String.format("Chapter %s", chapters.getChapterId());
+            String chapterName = String.format("Chapter %s", chapters.getChapterId());
             view.setImageBitmap(getThumb(chapterName));
             draggableGridView.addView(view);
         }
@@ -161,20 +161,20 @@ public class BibleFragment extends Fragment {
         });
         setUpFloatingBarAction(1);
     }
+
     /**
      * set Up Draggable View For Verses
      */
-    private void setUpDraggableViewForVerses()
-    {
+    private void setUpDraggableViewForVerses() {
         showProgressDialog("Loading book...");
         draggableGridView.removeAllViews();
 
 
-        for (Verse verse : mSelectedChapter.getChapterVerses() ){
+        for (Verse verse : mSelectedChapter.getChapterVerses()) {
 
             ImageView view = new ImageView(mActivity);
 
-            String verseName =  String.format("%s %s",  "Verse", verse.getId());
+            String verseName = String.format("%s %s", "Verse", verse.getId());
             view.setImageBitmap(getThumb(verseName));
             draggableGridView.addView(view);
 
@@ -183,7 +183,7 @@ public class BibleFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int childPosition, long arg3) {
 
-                BibleViewActivity.setBook(mSelectedBook,mSelectedChapter);
+                BibleViewActivity.setBook(mSelectedBook, mSelectedChapter);
                 startActivity(new Intent(mActivity, BibleViewActivity.class));
             }
         });
@@ -196,8 +196,8 @@ public class BibleFragment extends Fragment {
             mProgressDialog.hide();
         }
     }
-    private static Bitmap getThumb(String s)
-    {
+
+    private static Bitmap getThumb(String s) {
         Bitmap bmp = Bitmap.createBitmap(150, 150, Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(bmp);
         Paint paint = new Paint();
@@ -213,11 +213,9 @@ public class BibleFragment extends Fragment {
         return bmp;
     }
 
-    public void setUpFloatingBarAction(int action)
-    {
+    public void setUpFloatingBarAction(int action) {
         mBibleFloatingActionButton.setVisibility(View.VISIBLE);
-        switch (action)
-        {
+        switch (action) {
             case 0:
                 mBibleFloatingActionButton.setVisibility(View.GONE);
                 break;
@@ -246,8 +244,7 @@ public class BibleFragment extends Fragment {
     }
 
 
-    private void showProgressDialog(String message)
-    {
+    private void showProgressDialog(String message) {
         if (mProgressDialog == null) {
 
             mProgressDialog = new ProgressDialog(getActivity());
